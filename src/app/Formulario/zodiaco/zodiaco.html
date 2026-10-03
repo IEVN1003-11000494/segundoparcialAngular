@@ -1,0 +1,77 @@
+<div class="container mx-auto mt-10 p-4">
+  <form class="grid grid-cols-2 gap-10">
+    
+ 
+    <div class="border-2 border-gray-300 p-6">
+      <h2 class="text-center mb-4">Datos Personales</h2>
+      
+      <div class="mb-2 flex items-center">
+        <label class="w-24">Nombre</label>
+        <input type="text" [(ngModel)]="nombre" name="nombre" class="border flex-1 px-2">
+      </div>
+      <div class="mb-2 flex items-center">
+        <label class="w-24">Apaterno</label>
+        <input type="text" [(ngModel)]="apaterno" name="apaterno" class="border flex-1 px-2">
+      </div>
+      <div class="mb-4 flex items-center">
+        <label class="w-24">Amaterno</label>
+        <input type="text" [(ngModel)]="amaterno" name="amaterno" class="border flex-1 px-2">
+      </div>
+
+      <h3 class="text-center mb-2">Fecha de nacimiento</h3>
+      <div class="flex justify-between mb-6">
+        <div class="text-center">
+          <label class="block text-sm">Dia</label>
+          <input type="number" [(ngModel)]="dia" name="dia" class="border w-16 text-center">
+        </div>
+        <div class="text-center">
+          <label class="block text-sm">Mes</label>
+          <input type="number" [(ngModel)]="mes" name="mes" class="border w-16 text-center">
+        </div>
+        <div class="text-center">
+          <label class="block text-sm">Año</label>
+          <input type="number" [(ngModel)]="anio" name="anio" class="border w-20 text-center">
+        </div>
+      </div>
+
+      <h3>sexo</h3>
+      <div class="mb-6">
+        <label class="block">
+          <input type="radio" [(ngModel)]="sexo" name="sexo" value="Masculino"> Masculino
+        </label>
+        <label class="block">
+          <input type="radio" [(ngModel)]="sexo" name="sexo" value="Femenino"> Femenino
+        </label>
+      </div>
+
+      <button type="button" (click)="imprimirDatos()" class="border-1 border-black px-8 py-1 bg-white hover:bg-gray-100">
+        imprimir
+      </button>
+    </div>
+
+
+  <div class="flex flex-col items-center justify-center p-6 text-center">
+      
+    
+      <div *ngIf="errorFecha" class="bg-red-100 border-2 border-red-500 text-red-700 px-4 py-3 rounded-md mb-4">
+        <strong class="font-bold">¡Error! </strong>
+        <span class="block">La fecha de nacimiento no puede ser mayor al día de hoy.</span>
+      </div>
+
+     
+      <div *ngIf="imprimir" class="flex flex-col items-center">
+        <h2 class="text-xl mb-4">Hola <span>{{nombreCompleto}}</span></h2>
+        
+        <p class="text-lg mb-6">Tienes <span>{{edad}}</span> años</p>
+        
+        <p class="text-lg mb-4">tu signo zodiacal</p>
+        
+        <img [src]="imagenSigno" alt="Signo Zodiacal" class="w-32 h-32 rounded-full mb-4 shadow-lg">
+        
+        <p class="text-lg">Es <span>{{signoZodiacal}}</span></p>
+      </div>
+
+    </div>
+
+  </form>
+</div>
