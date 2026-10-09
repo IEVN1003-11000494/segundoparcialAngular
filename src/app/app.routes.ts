@@ -25,16 +25,25 @@ export const routes: Routes = [
 
     },
     {
-    path:'Formulario',
+    path:'escuela',
         children:[
 
      {
-                path:'escuela',
+                path:'lista-escuela',
                 loadComponent:()=>
                     import('./escuela/lista-escuela/lista-escuela').then(
                         (c)=>c.ListaEscuela
                     ),
-            }
+                    
+            },
+            
+            {
+                path:'cinepolis',
+                loadComponent:()=>
+                    import('./escuela/cinepolis/cinepolis').then(
+                        (c)=>c.Cinepolis
+                    ),
+            },
 
         ]
     },
