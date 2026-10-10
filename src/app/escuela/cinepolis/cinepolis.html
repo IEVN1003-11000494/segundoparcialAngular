@@ -1,1 +1,111 @@
-<p>cinepolis works!</p>
+<div class="max-w-4xl mx-auto mt-10 p-8 bg-blue-700 rounded-lg shadow-xl text-white font-sans relative overflow-hidden">
+  
+  <!-- IMAGEN DE FONDO -->
+  <div class="absolute inset-0 pointer-events-none" 
+       style="background-image: url('https://brandemia.org/contenido/subidas/2019/07/logo-cinepolis-1200x670.jpg'); background-size: 110%; background-position: center 60%; background-repeat: no-repeat; mix-blend-mode: multiply;">
+  </div>
+
+  <div class="relative z-10">
+    
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold bg-white text-blue-800 inline-block px-8 py-1 border-2 border-gray-300">
+        Cinepolis
+      </h1>
+    </div>
+
+    <!-- AVISO PRINCIPAL -->
+    <div class="mb-8 p-4 bg-blue-800 bg-opacity-90 text-sm shadow-inner">
+      <h3 class="font-bold text-yellow-400 text-lg mb-2">¡AVISO IMPORTANTE!</h3>
+      <p class="mb-2">El costo de la boleta es de <strong>$12.00</strong>. Límite de 7 boletas por persona.</p>
+      <p>Descuentos aplicables:</p>
+      <ul class="list-disc ml-6 mt-1 text-blue-100">
+        <li><strong>1.</strong> Más de 5 boletas: 15% de descuento.</li>
+        <li><strong>2.</strong> 3, 4 o 5 boletas: 10% de descuento.</li>
+        <li><strong>3.</strong> Hasta 2 boletas: Sin descuento.</li>
+      </ul>
+    </div>
+
+    <form [formGroup]="formulario">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        
+        <!-- SECCIÓN ENTRADAS-->
+        <div class="border border-white p-6 relative bg-transparent">
+          <span class="absolute -top-4 left-4 bg-blue-700 px-2 text-xl font-serif italic">Entradas</span>
+          
+          <div class="mb-4 flex items-center justify-between">
+            <label for="nombre" class="font-bold">Nombre</label>
+            <input type="text" id="nombre" formControlName="nombre" class="text-black px-2 py-1 w-48 outline-none">
+          </div>
+          
+          <div class="mb-4 flex items-center justify-between">
+            <label for="cantidadCompradores" class="font-bold text-sm">Cantidad Compradores</label>
+            <input type="number" id="cantidadCompradores" formControlName="cantidadCompradores" class="text-black px-2 py-1 w-48 outline-none">
+          </div>
+
+          <div class="mb-4 flex items-center justify-between">
+            <label class="font-bold">Tarjeta Cineco</label>
+            <div class="flex gap-6 w-48 bg-white text-black px-2 py-1 items-center">
+              <label class="flex items-center gap-1 cursor-pointer">
+                <input type="radio" formControlName="tarjetaCineco" value="Si" class="text-blue-600 focus:ring-blue-500"> Si
+              </label>
+              <label class="flex items-center gap-1 cursor-pointer">
+                <input type="radio" formControlName="tarjetaCineco" value="No" class="text-blue-600 focus:ring-blue-500"> No
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-2 flex items-center justify-between">
+            <label for="cantidadBoletas" class="font-bold text-sm">Cantidad De Boletas</label>
+            <input type="number" id="cantidadBoletas" formControlName="cantidadBoletas" class="text-black px-2 py-1 w-48 outline-none">
+          </div>
+        </div>
+
+        <!-- SECCIÓN SALIDAS-->
+        <div class="border border-white p-6 relative flex flex-col gap-4 bg-transparent">
+          <span class="absolute -top-4 left-4 bg-blue-700 px-2 text-xl font-serif italic">Salidas</span>
+          
+          <div class="mt-2 flex items-center justify-between">
+            <label class="font-bold">Valor a Pagar</label>
+            <input type="text" readonly [value]="nuevoTicket.totalPagar | currency:'USD':'symbol':'1.2-2'" class="text-black px-2 py-1 w-40 bg-gray-100 cursor-not-allowed outline-none text-right font-bold">
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-sm">Comprador</label>
+            <input type="text" readonly [value]="nuevoTicket.nombreComprador" class="text-black px-2 py-1 w-40 bg-gray-100 cursor-not-allowed outline-none text-right font-bold">
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-sm">Máx. Boletas</label>
+            <input type="text" readonly [value]="nuevoTicket.maxBoletasPermitidas ? nuevoTicket.maxBoletasPermitidas : ''" class="text-black px-2 py-1 w-40 bg-gray-100 cursor-not-allowed outline-none text-center font-bold">
+          </div>
+
+          <div *ngIf="mensajeError" class="mt-2 text-white-200 font-bold text-xs text-center bg-red-900 bg-opacity-40 p-2 ">
+            {{ mensajeError }}
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTA DEL AVISO CINECO -->
+      <div class="mt-6 p-4 bg-blue-800 bg-opacity-90 text-sm text-blue-100 italic shadow-inner">
+        * Nota: Si la compra será pagada utilizando la tarjeta CINECO, tendrán derecho a un 10% del valor a pagar, como descuento adicional a los descuentos ya obtenidos.
+      </div>
+
+      <!-- ACCIONES -->
+      <div class="flex flex-col items-center mt-12 mb-4">
+        <div class="border border-white p-4 relative w-72 bg-transparent">
+          <span class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-700 px-2 text-xl font-serif italic">Acciones</span>
+          
+          <div class="flex justify-around mt-3">
+            <button type="button" (click)="procesar()" class="bg-gray-200 text-black px-6 py-1 font-bold hover:bg-white border border-gray-400 shadow transition-colors">
+              Procesar
+            </button>
+            <button type="button" (click)="salir()" class="bg-gray-200 text-black px-8 py-1 font-bold hover:bg-white border border-gray-400 shadow transition-colors">
+              Salir
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
