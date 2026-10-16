@@ -90,21 +90,25 @@
         * Nota: Si la compra será pagada utilizando la tarjeta CINECO, tendrán derecho a un 10% del valor a pagar, como descuento adicional a los descuentos ya obtenidos.
       </div>
 
-      <!-- ACCIONES -->
+     <!-- ACCIONES -->
       <div class="flex flex-col items-center mt-12 mb-4">
-        <div class="border border-white p-4 relative w-72 bg-transparent">
+        <div class="border border-white p-4 relative w-96 bg-transparent">
           <span class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-700 px-2 text-xl font-serif italic">Acciones</span>
           
-          <div class="flex justify-around mt-3">
-            <button type="button" (click)="procesar()" class="bg-gray-200 text-black px-6 py-1 font-bold hover:bg-white border border-gray-400 shadow transition-colors">
+          <div class="flex justify-around mt-3 gap-2">
+            <button type="button" (click)="procesar()" class="bg-gray-200 text-black px-4 py-1 font-bold hover:bg-white border border-gray-400 shadow transition-colors">
               Procesar
             </button>
-            <button type="button" (click)="salir()" class="bg-gray-200 text-black px-8 py-1 font-bold hover:bg-white border border-gray-400 shadow transition-colors">
+            <button type="button" (click)="registrarVenta()" class="bg-blue-500 text-white px-4 py-1 font-bold hover:bg-blue-400 border border-white shadow transition-colors">
+              Registrar Venta
+            </button>
+            <button type="button" (click)="salir()" class="bg-gray-200 text-black px-4 py-1 font-bold hover:bg-white border border-gray-400 shadow transition-colors">
               Salir
             </button>
           </div>
         </div>
       </div>
+      
 
     </form>
   </div>

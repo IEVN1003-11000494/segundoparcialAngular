@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ITicket } from '../ticket'; 
+import { ITicket } from '../ticket';
+import { Router } from '@angular/router'; 
 
 @Component({
   standalone: true,
@@ -13,6 +14,7 @@ import { ITicket } from '../ticket';
 export class Cinepolis implements OnInit {
   formulario!: FormGroup;
   mensajeError: string = '';
+  ventas: ITicket[] = [];
 
   nuevoTicket: ITicket = {
     nombreComprador: '',
@@ -20,7 +22,17 @@ export class Cinepolis implements OnInit {
     maxBoletasPermitidas: 0,
   };
 
+  constructor(private router: Router) {}
+
+  cargarVentas(): void {
+    const datos = localStorage.getItem('ventas');
+    if (datos) {
+      this.ventas = JSON.parse(datos);
+    }
+  }
+
   ngOnInit(): void {
+    this.cargarVentas(); 
     this.formulario = new FormGroup({
       nombre: new FormControl(''),
       cantidadCompradores: new FormControl(1),
@@ -44,6 +56,11 @@ export class Cinepolis implements OnInit {
     const tarjetaCineco = this.formulario.value.tarjetaCineco;
 
     
+    if (!nombre || nombre.trim() === '' || !cantidadCompradores || cantidadCompradores <= 0 || !cantidadBoletas || cantidadBoletas <= 0) {
+      this.mensajeError = 'Error: Todos los campos son obligatorios. Ingresa un nombre y cantidades válidas.';
+      return; 
+    }
+
     const maxBoletas = cantidadCompradores * 7;
 
     if (cantidadBoletas > maxBoletas) {
@@ -63,10 +80,21 @@ export class Cinepolis implements OnInit {
       total = total * 0.90; 
     }
 
-  
     this.nuevoTicket.nombreComprador = nombre;
     this.nuevoTicket.totalPagar = total;
     this.nuevoTicket.maxBoletasPermitidas = cantidadBoletas;
+  }
+
+  registrarVenta(): void {
+    this.procesar();
+
+    
+    if (this.mensajeError === '' && this.nuevoTicket.totalPagar > 0) {
+      this.ventas.push({ ...this.nuevoTicket });
+      localStorage.setItem('ventas', JSON.stringify(this.ventas));
+      
+      this.router.navigate(['/escuela/ventas']);
+    }
   }
 
   salir(): void {

@@ -1,0 +1,131 @@
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
+  
+ 
+  <div class="flex justify-between items-center mb-8 border-b pb-4">
+    <h2 class="text-3xl font-bold text-gray-800">Historial de Ventas - Cinépolis</h2>
+    <button type="button" (click)="regresar()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 shadow-md font-medium transition-colors">
+      ← Regresar a Taquilla
+    </button>
+  </div>
+
+
+  <div class="max-w-2xl mx-auto p-6 mb-8 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="text-xl font-bold text-gray-700 mb-6">Editar / Registrar Venta</h3>
+
+    <form [formGroup]="formulario">
+      <!-- Comprador -->
+      <div class="mb-4">
+        <label for="nombreComprador" class="block mb-2 text-sm font-bold text-gray-600">
+          Comprador
+        </label>
+        <input
+          type="text"
+          id="nombreComprador"
+          formControlName="nombreComprador"
+          placeholder="Nombre del comprador"
+          class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        >
+      </div>
+
+      <!-- Boletas Compradas -->
+      <div class="mb-4">
+        <label for="maxBoletasPermitidas" class="block mb-2 text-sm font-bold text-gray-600">
+          Boletas Compradas
+        </label>
+        <input
+          type="number"
+          id="maxBoletasPermitidas"
+          formControlName="maxBoletasPermitidas"
+          placeholder="Cantidad de boletas"
+          class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        >
+      </div>
+
+      <!-- Total Pagado -->
+      <div class="mb-6">
+        <label for="totalPagar" class="block mb-2 text-sm font-bold text-gray-600">
+          Total Pagado
+        </label>
+        <input
+          type="number"
+          id="totalPagar"
+          formControlName="totalPagar"
+          placeholder="Total a pagar"
+          class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        >
+      </div>
+
+      <!-- Botones del Formulario -->
+      <div class="flex justify-center gap-4">
+        <button
+          type="button"
+          (click)="muestraVenta()"
+          class="text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:ring-indigo-300 font-medium rounded-full text-sm px-6 py-2.5 focus:outline-none"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          (click)="limpiarCampos()"
+          class="text-gray-700 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-6 py-2.5 focus:outline-none"
+        >
+          Limpiar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabla de Ventas -->
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+        <tr>
+          <th scope="col" class="px-6 py-4">Comprador</th>
+          <th scope="col" class="px-6 py-4 text-center">Boletas Compradas</th>
+          <th scope="col" class="px-6 py-4 text-right">Total Pagado</th>
+          <th scope="col" class="px-6 py-4 text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venta of ventas; let i = index" class="bg-white border-b border-gray-200 hover:bg-gray-50">
+          <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            {{ venta.nombreComprador }}
+          </td>
+          <td class="px-6 py-4 text-center">
+            {{ venta.maxBoletasPermitidas }}
+          </td>
+          <td class="px-6 py-4 font-bold text-blue-600 text-right">
+            {{ venta.totalPagar | currency:'USD':'symbol':'1.2-2' }}
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-center gap-2">
+              <!-- Botón Editar -->
+              <button
+                type="button"
+                (click)="editarVenta(i)"
+                class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300"
+              >
+                Editar
+              </button>
+
+              <!-- Botón Eliminar -->
+              <button
+                type="button"
+                (click)="eliminarVenta(i)"
+                class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300"
+              >
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje por si no hay ventas en el localStorage -->
+  <div *ngIf="ventas.length === 0" class="p-4 mt-6 text-sm text-blue-800 rounded-lg bg-blue-50 border border-blue-200" role="alert">
+    <span class="font-medium">Información:</span> Aún no hay ventas registradas en el sistema.
+  </div>
+
+</div>

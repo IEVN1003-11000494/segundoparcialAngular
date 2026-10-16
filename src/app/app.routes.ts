@@ -45,6 +45,14 @@ export const routes: Routes = [
                     ),
             },
 
+            {
+                path: 'ventas',
+                loadComponent: () =>
+                    import('./escuela/ventas/ventas').then(
+                        (c) => c.VentasComponent
+                    ),
+            },
+
         ]
     },
 
